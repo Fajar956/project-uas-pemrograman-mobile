@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Toolbar -->
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/white"
+            android:elevation="4dp"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/btnBack"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/back"
+                android:contentDescription="Back" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="Edit Profile"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/black" />
+        </androidx.appcompat.widget.Toolbar>
+
+        <!-- Profile Picture Section -->
+        <RelativeLayout
+            android:id="@+id/profilePictureSection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/profileImage"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/profile_icon"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.circleImageView" />
+
+            <ImageView
+                android:id="@+id/btnChangePhoto"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_alignEnd="@id/profileImage"
+                android:layout_alignBottom="@id/profileImage"
+                android:background="@drawable/rounded_blue_border"
+                android:padding="8dp"
+                android:src="@drawable/ic_camera"
+                android:contentDescription="Change Photo" />
+        </RelativeLayout>
+
+        <!-- Form Section -->
+        <LinearLayout
+            android:id="@+id/formSection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:orientation="vertical"
+            android:padding="24dp"
+            app:layout_constraintTop_toBottomOf="@id/profilePictureSection">
+
+            <!-- Full Name -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Full Name"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_marginBottom="8dp" />
+
+            <EditText
+                android:id="@+id/etFullName"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/white_bg"
+                android:hint="Enter your full name"
+                android:padding="12dp"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:inputType="textPersonName"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Email -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Email"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_marginBottom="8dp" />
+
+            <EditText
+                android:id="@+id/etEmail"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/white_bg"
+                android:hint="Enter your email"
+                android:padding="12dp"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:inputType="textEmailAddress"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Phone Number -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Phone Number"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_marginBottom="8dp" />
+
+            <EditText
+                android:id="@+id/etPhone"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/white_bg"
+                android:hint="Enter your phone number"
+                android:padding="12dp"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:inputType="phone"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Date of Birth -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date of Birth"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_marginBottom="8dp" />
+
+            <EditText
+                android:id="@+id/etDateOfBirth"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/white_bg"
+                android:hint="DD/MM/YYYY"
+                android:padding="12dp"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:focusable="false"
+                android:clickable="true"
+                android:drawableEnd="@drawable/calender"
+                android:drawablePadding="12dp"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Gender -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Gender"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_marginBottom="8dp" />
+
+            <RadioGroup
+                android:id="@+id/rgGender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp">
+
+                <RadioButton
+                    android:id="@+id/rbMale"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Male"
+                    android:textSize="16sp" />
+
+                <RadioButton
+                    android:id="@+id/rbFemale"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Female"
+                    android:textSize="16sp" />
+            </RadioGroup>
+
+            <!-- Address -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Address"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_marginBottom="8dp" />
+
+            <EditText
+                android:id="@+id/etAddress"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="@drawable/white_bg"
+                android:hint="Enter your address"
+                android:padding="12dp"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:inputType="textMultiLine"
+                android:gravity="top"
+                android:layout_marginBottom="24dp" />
+
+            <!-- Save Button -->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSave"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:background="@drawable/blue_bg"
+                android:text="Save Changes"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textAllCaps="false"
+                android:layout_marginBottom="16dp" />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

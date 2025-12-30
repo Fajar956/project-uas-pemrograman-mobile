@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:background="@drawable/white_bg"
+    android:elevation="3dp"
+    android:padding="8dp">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/pic"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.circleImageView"
+        tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+    <TextView
+        android:id="@+id/titleTxt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="Title"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:maxLines="2"
+        android:ellipsize="end"
+        app:layout_constraintEnd_toStartOf="@+id/removeBtn"
+        app:layout_constraintStart_toEndOf="@+id/pic"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/feeEachItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="$0"
+        android:textColor="@color/purple"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/titleTxt"
+        app:layout_constraintTop_toBottomOf="@+id/titleTxt" />
+
+    <TextView
+        android:id="@+id/totalEachItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="$0"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/feeEachItem"
+        app:layout_constraintStart_toEndOf="@+id/feeEachItem"
+        app:layout_constraintTop_toTopOf="@+id/feeEachItem" />
+
+    <TextView
+        android:id="@+id/numberItemTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="1"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/plusCartBtn"
+        app:layout_constraintStart_toEndOf="@+id/minusCartBtn"
+        app:layout_constraintTop_toBottomOf="@+id/feeEachItem" />
+
+    <ImageView
+        android:id="@+id/minusCartBtn"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:padding="4dp"
+        app:layout_constraintBottom_toBottomOf="@+id/numberItemTxt"
+        app:layout_constraintEnd_toStartOf="@+id/numberItemTxt"
+        app:layout_constraintStart_toStartOf="@+id/titleTxt"
+        app:layout_constraintTop_toTopOf="@+id/numberItemTxt"
+        app:srcCompat="@drawable/minus"
+        android:background="?attr/selectableItemBackgroundBorderless" />
+
+    <ImageView
+        android:id="@+id/plusCartBtn"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:padding="4dp"
+        app:layout_constraintBottom_toBottomOf="@+id/numberItemTxt"
+        app:layout_constraintStart_toEndOf="@+id/numberItemTxt"
+        app:layout_constraintTop_toTopOf="@+id/numberItemTxt"
+        app:srcCompat="@drawable/plus"
+        android:background="?attr/selectableItemBackgroundBorderless" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/removeBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:background="@drawable/red_button_bg"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:text="Remove"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
