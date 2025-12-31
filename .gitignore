@@ -1,4 +1,3 @@
-.idea/git add .gitignore
 *.iml
 .gradle
 /local.properties
