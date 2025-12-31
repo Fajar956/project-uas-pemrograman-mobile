@@ -1,0 +1,12 @@
+<resources>
+    <!-- Padding dan Margin Umum -->
+    <dimen name="padding_small">8dp</dimen>
+    <dimen name="padding_medium">16dp</dimen>
+    <dimen name="padding_large">24dp</dimen>
+
+    <!-- Ukuran Teks Umum -->
+    <dimen name="text_size_normal">16sp</dimen>
+    <!-- Tambahkan ukuran teks lain yang Anda butuhkan, contohnya: -->
+    <dimen name="text_size_title">20sp</dimen>
+    <dimen name="text_size_small">12sp</dimen>
+</resources>
