@@ -1,23 +1,18 @@
 pluginManagement {
     repositories {
-        google {
-            content {
-                includeGroupByRegex("com\\.android.*")
-                includeGroupByRegex("com\\.google.*")
-                includeGroupByRegex("androidx.*")
-            }
-        }
+        google()
         mavenCentral()
         gradlePluginPortal()
-        maven(uri("https://jitpack.io")) // Pastikan ini https, bukan htpps
     }
 }
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()
         mavenCentral()
-        maven(uri("https://jitpack.io")) // Pastikan ini juga https, bukan htpps
+        maven { url = uri("https://jitpack.io") } // Untuk Glide, ChipNavigationBar, dll
+        maven { url = uri("https://dl.google.com/dl/android/maven2") } // Untuk Google Services
     }
 }
 

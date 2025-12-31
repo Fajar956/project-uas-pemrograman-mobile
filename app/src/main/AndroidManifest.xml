@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -12,27 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TravelApp">
 
-        <!-- Activity baru -->
-        <activity
-            android:name=".Activity.NotificationActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activity.CartActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activity.ProfileActivity"
-            android:exported="false" />
-
-        <!-- Activity yang sudah ada -->
-        <activity
-            android:name=".Activity.TicketActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activity.DetailActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activity.BaseActivity"
-            android:exported="false" />
+        <!-- Aktivitas Utama -->
         <activity
             android:name=".Activity.IntroActivity"
             android:exported="true">
@@ -41,10 +24,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".Activity.MainActivity"
-            android:exported="true">
-        </activity>
-    </application>
+            android:exported="true" />
 
+        <activity
+            android:name=".Activity.ExplorerActivity"
+            android:exported="false" />
+
+        <!-- Tambahkan aktivitas lain jika perlu -->
+    </application>
 </manifest>

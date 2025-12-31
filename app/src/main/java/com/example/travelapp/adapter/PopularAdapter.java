@@ -1,4 +1,4 @@
-package com.example.travelapp.Adapter;
+package com.example.travelapp.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,7 +13,6 @@ import com.bumptech.glide.Glide;
 import com.example.travelapp.Activity.DetailActivity;
 import com.example.travelapp.Domain.ItemDomain;
 import com.example.travelapp.databinding.ViewholderPopularBinding;
-import com.example.travelapp.databinding.ViewholderRecommendedBinding;
 
 import java.util.ArrayList;
 

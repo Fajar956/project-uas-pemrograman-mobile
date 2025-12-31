@@ -1,4 +1,4 @@
-package com.example.travelapp.Adapter;
+package com.example.travelapp.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

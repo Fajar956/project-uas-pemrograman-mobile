@@ -1,4 +1,4 @@
-package com.example.travelapp.Adapter;
+package com.example.travelapp.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.travelapp.Activity.NotificationActivity;
-import com.example.travelapp.R;
 import com.example.travelapp.databinding.ViewholderNotificationBinding;
 
 import java.util.List;

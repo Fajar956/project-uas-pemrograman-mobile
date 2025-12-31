@@ -3,36 +3,35 @@ package com.example.travelapp.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.travelapp.Adapter.CategoryAdapter;
-import com.example.travelapp.Adapter.PopularAdapter;
-import com.example.travelapp.Adapter.RecommendedAdapter;
-import com.example.travelapp.Adapter.SliderAdapter;
+// ❌ HAPUS BARIS INI: import com.example.travelapp.Activity.MainActivity;
+import com.example.travelapp.R;
+import com.example.travelapp.adapter.CategoryAdapter;
+import com.example.travelapp.adapter.PopularAdapter;
+import com.example.travelapp.adapter.RecommendedAdapter;
+import com.example.travelapp.adapter.SliderAdapter;
+import com.example.travelapp.databinding.ActivityMainBinding;
 import com.example.travelapp.Domain.Category;
 import com.example.travelapp.Domain.ItemDomain;
 import com.example.travelapp.Domain.Location;
 import com.example.travelapp.Domain.SliderItems;
-import com.example.travelapp.R;
-import com.example.travelapp.databinding.ActivityMainBinding;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 import java.util.ArrayList;
-
-import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 public class MainActivity extends BaseActivity {
     ActivityMainBinding binding;
@@ -40,12 +39,17 @@ public class MainActivity extends BaseActivity {
     private ArrayList<ItemDomain> popularList = new ArrayList<>();
     private RecommendedAdapter recommendedAdapter;
     private PopularAdapter popularAdapter;
+    // ✅ Tambahkan DatabaseReference global jika diperlukan
+    private FirebaseDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        // ✅ Inisialisasi Firebase Database
+        database = FirebaseDatabase.getInstance();
 
         initLocation();
         initBanner();
@@ -72,14 +76,12 @@ public class MainActivity extends BaseActivity {
     private void setupSearch() {
         EditText searchBar = findViewById(R.id.editTextText2);
 
-        // Search ketika tombol enter ditekan
         searchBar.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH ||
                     actionId == EditorInfo.IME_ACTION_DONE ||
                     actionId == EditorInfo.IME_ACTION_GO) {
                 String query = searchBar.getText().toString().trim();
                 performSearch(query);
-                // Sembunyikan keyboard
                 searchBar.clearFocus();
                 return true;
             }
@@ -89,7 +91,6 @@ public class MainActivity extends BaseActivity {
 
     private void performSearch(String query) {
         if (query.isEmpty()) {
-            // Jika search kosong, tampilkan semua data
             if (recommendedAdapter != null && !itemList.isEmpty()) {
                 recommendedAdapter = new RecommendedAdapter(itemList);
                 binding.recyclerViewRecommended.setAdapter(recommendedAdapter);
@@ -101,7 +102,6 @@ public class MainActivity extends BaseActivity {
             return;
         }
 
-        // Filter Recommended items
         ArrayList<ItemDomain> filteredRecommended = new ArrayList<>();
         for (ItemDomain item : itemList) {
             if (item.getTitle().toLowerCase().contains(query.toLowerCase()) ||
@@ -110,7 +110,6 @@ public class MainActivity extends BaseActivity {
             }
         }
 
-        // Filter Popular items
         ArrayList<ItemDomain> filteredPopular = new ArrayList<>();
         for (ItemDomain item : popularList) {
             if (item.getTitle().toLowerCase().contains(query.toLowerCase()) ||
@@ -119,22 +118,18 @@ public class MainActivity extends BaseActivity {
             }
         }
 
-        // Update Recommended RecyclerView
         recommendedAdapter = new RecommendedAdapter(filteredRecommended);
         binding.recyclerViewRecommended.setAdapter(recommendedAdapter);
 
-        // Update Popular RecyclerView
         popularAdapter = new PopularAdapter(filteredPopular);
         binding.recyclerViewPopular.setAdapter(popularAdapter);
 
-        // Show message if no results
         if (filteredRecommended.isEmpty() && filteredPopular.isEmpty()) {
             Toast.makeText(this, "No results found for: " + query, Toast.LENGTH_SHORT).show();
         }
     }
 
     private void setupBottomNavigation() {
-        // Sekarang pakai ID yang baru ditambahkan
         ChipNavigationBar bottomNav = findViewById(R.id.bottom_navigation);
 
         if (bottomNav == null) {
@@ -142,23 +137,18 @@ public class MainActivity extends BaseActivity {
             return;
         }
 
-        // Set Home sebagai selected
-        bottomNav.setItemSelected(R.id.exploler, true);
+        bottomNav.setItemSelected(R.id.home, true);
 
         bottomNav.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
             @Override
             public void onItemSelected(int id) {
-                if (id == R.id.exploler) {
-                    // Already in home (MainActivity)
-                    // Tidak perlu lakukan apa-apa
-                } else if (id == R.id.favorite) {
-                    // Explorer/Favorite - buat activity baru atau toast
-                    Toast.makeText(MainActivity.this, "Explorer coming soon!", Toast.LENGTH_SHORT).show();
+                if (id == R.id.home) {
+                    // Tetap di MainActivity (Home)
+                } else if (id == R.id.explorer) {
+                    startActivity(new Intent(MainActivity.this, ExplorerActivity.class));
                 } else if (id == R.id.cart) {
-                    // Cart Activity
                     startActivity(new Intent(MainActivity.this, CartActivity.class));
                 } else if (id == R.id.profile) {
-                    // Profile Activity
                     startActivity(new Intent(MainActivity.this, ProfileActivity.class));
                 }
             }
@@ -168,25 +158,25 @@ public class MainActivity extends BaseActivity {
     private void initPopular() {
         DatabaseReference myref = database.getReference("Popular");
         binding.progressBarPopular.setVisibility(View.VISIBLE);
-
         popularList.clear();
 
         myref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()){
+                if (snapshot.exists()) {
                     for (DataSnapshot issue : snapshot.getChildren()) {
                         ItemDomain item = issue.getValue(ItemDomain.class);
                         popularList.add(item);
                     }
-                    if (!popularList.isEmpty()){
-                        binding.recyclerViewPopular.setLayoutManager(new LinearLayoutManager(
-                                MainActivity.this, LinearLayoutManager.HORIZONTAL, false));
+                    if (!popularList.isEmpty()) {
+                        binding.recyclerViewPopular.setLayoutManager(
+                                new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false)
+                        );
                         popularAdapter = new PopularAdapter(popularList);
                         binding.recyclerViewPopular.setAdapter(popularAdapter);
                     }
-                    binding.progressBarPopular.setVisibility(View.GONE);
                 }
+                binding.progressBarPopular.setVisibility(View.GONE);
             }
 
             @Override
@@ -199,25 +189,25 @@ public class MainActivity extends BaseActivity {
     private void initRecommended() {
         DatabaseReference myref = database.getReference("Item");
         binding.progressBarRecommended.setVisibility(View.VISIBLE);
-
         itemList.clear();
 
         myref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()){
+                if (snapshot.exists()) {
                     for (DataSnapshot issue : snapshot.getChildren()) {
                         ItemDomain item = issue.getValue(ItemDomain.class);
                         itemList.add(item);
                     }
-                    if (!itemList.isEmpty()){
-                        binding.recyclerViewRecommended.setLayoutManager(new LinearLayoutManager(
-                                MainActivity.this, LinearLayoutManager.HORIZONTAL, false));
+                    if (!itemList.isEmpty()) {
+                        binding.recyclerViewRecommended.setLayoutManager(
+                                new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false)
+                        );
                         recommendedAdapter = new RecommendedAdapter(itemList);
                         binding.recyclerViewRecommended.setAdapter(recommendedAdapter);
                     }
-                    binding.progressBarRecommended.setVisibility(View.GONE);
                 }
+                binding.progressBarRecommended.setVisibility(View.GONE);
             }
 
             @Override
@@ -235,18 +225,19 @@ public class MainActivity extends BaseActivity {
         myref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()){
+                if (snapshot.exists()) {
                     for (DataSnapshot issue : snapshot.getChildren()) {
                         list.add(issue.getValue(Category.class));
                     }
-                    if (!list.isEmpty()){
-                        binding.recyclerViewCategory.setLayoutManager(new LinearLayoutManager(
-                                MainActivity.this, LinearLayoutManager.HORIZONTAL, false));
+                    if (!list.isEmpty()) {
+                        binding.recyclerViewCategory.setLayoutManager(
+                                new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false)
+                        );
                         CategoryAdapter adapter = new CategoryAdapter(list);
                         binding.recyclerViewCategory.setAdapter(adapter);
                     }
-                    binding.progressBarCategory.setVisibility(View.GONE);
                 }
+                binding.progressBarCategory.setVisibility(View.GONE);
             }
 
             @Override
@@ -257,15 +248,14 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initLocation() {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myref = database.getReference("Location");
         ArrayList<Location> list = new ArrayList<>();
 
         myref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()){
-                    for (DataSnapshot issue : snapshot.getChildren()){
+                if (snapshot.exists()) {
+                    for (DataSnapshot issue : snapshot.getChildren()) {
                         list.add(issue.getValue(Location.class));
                     }
                     ArrayAdapter<Location> adapter = new ArrayAdapter<>(MainActivity.this,
@@ -277,20 +267,20 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+                // Opsional: tampilkan error
             }
         });
     }
 
-    private void banners(ArrayList<SliderItems> items){
+    private void banners(ArrayList<SliderItems> items) {
         binding.viewPagerSlider.setAdapter(new SliderAdapter(items, binding.viewPagerSlider));
         binding.viewPagerSlider.setClipToPadding(false);
         binding.viewPagerSlider.setClipChildren(false);
         binding.viewPagerSlider.setOffscreenPageLimit(3);
-        binding.viewPagerSlider.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
+        binding.viewPagerSlider.getChildAt(0).setOverScrollMode(View.OVER_SCROLL_NEVER);
     }
 
-    private void initBanner(){
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private void initBanner() {
         DatabaseReference myref = database.getReference("Banner");
         binding.progressBarBanner.setVisibility(View.VISIBLE);
         ArrayList<SliderItems> list = new ArrayList<>();
@@ -303,8 +293,8 @@ public class MainActivity extends BaseActivity {
                         list.add(issue.getValue(SliderItems.class));
                     }
                     banners(list);
-                    binding.progressBarBanner.setVisibility(View.GONE);
                 }
+                binding.progressBarBanner.setVisibility(View.GONE);
             }
 
             @Override

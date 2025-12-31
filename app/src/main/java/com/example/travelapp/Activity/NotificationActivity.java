@@ -1,13 +1,12 @@
 package com.example.travelapp.Activity;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.travelapp.Adapter.NotificationAdapter;
+import com.example.travelapp.adapter.NotificationAdapter;
 import com.example.travelapp.R;
 import com.example.travelapp.databinding.ActivityNotificationBinding;
 

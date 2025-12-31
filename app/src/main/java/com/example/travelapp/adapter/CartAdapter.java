@@ -1,7 +1,6 @@
-package com.example.travelapp.Adapter;
+package com.example.travelapp.adapter;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -9,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.travelapp.Domain.ItemDomain;
-import com.example.travelapp.R;
 import com.example.travelapp.databinding.ViewholderCartBinding;
 
 import java.util.ArrayList;

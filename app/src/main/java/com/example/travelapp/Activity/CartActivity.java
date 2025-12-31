@@ -1,15 +1,13 @@
 package com.example.travelapp.Activity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.travelapp.Adapter.CartAdapter;
+import com.example.travelapp.adapter.CartAdapter;
 import com.example.travelapp.Domain.ItemDomain;
 import com.example.travelapp.R;
 import com.example.travelapp.databinding.ActivityCartBinding;
