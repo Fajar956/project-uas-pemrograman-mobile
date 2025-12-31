@@ -33,19 +33,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ItemDomain item = items.get(position);
 
-        // Set title
         holder.binding.titleTxt.setText(item.getTitle());
-
-        // Set price per item
-        holder.binding.feeEachItem.setText("$" + item.getPrice());
-
-        // Set initial quantity (default 1)
-        int quantity = 1;
-        holder.binding.numberItemTxt.setText(String.valueOf(quantity));
-
-        // Calculate and set total price
-        double totalPrice = item.getPrice() * quantity;
-        holder.binding.totalEachItem.setText("$" + totalPrice);
+        holder.binding.priceTxt.setText("$" + item.getPrice());
+        holder.binding.addressTxt.setText(item.getAddress());
 
         // Load image if available
         if (item.getPic() != null && !item.getPic().isEmpty()) {
@@ -53,30 +43,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                     .load(item.getPic())
                     .into(holder.binding.pic);
         }
-
-        // Plus button functionality
-        holder.binding.plusCartBtn.setOnClickListener(v -> {
-            int currentQty = Integer.parseInt(holder.binding.numberItemTxt.getText().toString());
-            currentQty++;
-            holder.binding.numberItemTxt.setText(String.valueOf(currentQty));
-
-            // Update total price
-            double total = item.getPrice() * currentQty;
-            holder.binding.totalEachItem.setText("$" + total);
-        });
-
-        // Minus button functionality
-        holder.binding.minusCartBtn.setOnClickListener(v -> {
-            int currentQty = Integer.parseInt(holder.binding.numberItemTxt.getText().toString());
-            if (currentQty > 1) {
-                currentQty--;
-                holder.binding.numberItemTxt.setText(String.valueOf(currentQty));
-
-                // Update total price
-                double total = item.getPrice() * currentQty;
-                holder.binding.totalEachItem.setText("$" + total);
-            }
-        });
 
         // Remove button functionality
         holder.binding.removeBtn.setOnClickListener(v -> {
@@ -91,7 +57,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         return items.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         ViewholderCartBinding binding;
 
         public ViewHolder(ViewholderCartBinding binding) {

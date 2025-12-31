@@ -20,51 +20,40 @@ public class ProfileActivity extends BaseActivity {
         binding = ActivityProfileBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        setupBackButton();
-        setupEditProfile();
-        setupMenuItems();
-        setupBottomNavigation();
-    }
+        // Set toolbar title
+        TextView titleTxt = findViewById(R.id.titleTxt);
+        if (titleTxt != null) {
+            titleTxt.setText("My Profile");
+        }
 
-    private void setupBackButton() {
         // Setup back button
-        if (binding.backBtn != null) {
-            binding.backBtn.setOnClickListener(v -> finish());
+        ImageView backBtn = findViewById(R.id.backBtn);
+        if (backBtn != null) {
+            backBtn.setOnClickListener(v -> finish());
         }
-    }
 
-    private void setupEditProfile() {
-        // Edit Profile button
-        if (binding.editProfileBtn != null) {
-            binding.editProfileBtn.setOnClickListener(v -> {
-                Intent intent = new Intent(ProfileActivity.this, EditProfileActivity.class);
-                startActivity(intent);
-            });
-        }
+        setupMenuItems();
     }
 
     private void setupMenuItems() {
         // History button
         if (binding.historyBtn != null) {
             binding.historyBtn.setOnClickListener(v -> {
-                Intent intent = new Intent(ProfileActivity.this, HistoryActivity.class);
-                startActivity(intent);
+                Toast.makeText(this, "History feature coming soon!", Toast.LENGTH_SHORT).show();
             });
         }
 
         // Settings button
         if (binding.settingsBtn != null) {
             binding.settingsBtn.setOnClickListener(v -> {
-                Intent intent = new Intent(ProfileActivity.this, SettingsActivity.class);
-                startActivity(intent);
+                Toast.makeText(this, "Settings feature coming soon!", Toast.LENGTH_SHORT).show();
             });
         }
 
         // About button
         if (binding.aboutBtn != null) {
             binding.aboutBtn.setOnClickListener(v -> {
-                Intent intent = new Intent(ProfileActivity.this, AboutActivity.class);
-                startActivity(intent);
+                Toast.makeText(this, "About feature coming soon!", Toast.LENGTH_SHORT).show();
             });
         }
 
@@ -77,43 +66,6 @@ public class ProfileActivity extends BaseActivity {
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
-            });
-        }
-    }
-
-    private void setupBottomNavigation() {
-        // Home Button
-        if (binding.homeBtn != null) {
-            binding.homeBtn.setOnClickListener(v -> {
-                Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
-            });
-        }
-
-        // Discover Button
-        if (binding.discoverBtn != null) {
-            binding.discoverBtn.setOnClickListener(v -> {
-                Intent intent = new Intent(ProfileActivity.this, ExplorerActivity.class);
-                startActivity(intent);
-                finish();
-            });
-        }
-
-        // Cart Button
-        if (binding.cartBtn != null) {
-            binding.cartBtn.setOnClickListener(v -> {
-                Intent intent = new Intent(ProfileActivity.this, CartActivity.class);
-                startActivity(intent);
-                finish();
-            });
-        }
-
-        // Profile Button (already on profile page)
-        if (binding.profileBtn != null) {
-            binding.profileBtn.setOnClickListener(v -> {
-                // Already on profile, do nothing or show toast
-                Toast.makeText(this, "Already on Profile page", Toast.LENGTH_SHORT).show();
             });
         }
     }

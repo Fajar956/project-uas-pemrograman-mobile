@@ -12,9 +12,7 @@
     <ScrollView
         android:id="@+id/scrollView3"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/bottomNavigation">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -23,7 +21,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="48dp"
                 android:layout_marginEnd="24dp">
@@ -58,7 +56,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="24dp"
@@ -101,7 +99,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginTop="16dp">
 
                 <androidx.viewpager2.widget.ViewPager2
@@ -110,10 +108,10 @@
                     android:layout_height="160dp"
                     android:paddingStart="24dp"
                     android:paddingEnd="24dp"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ProgressBar
                     android:id="@+id/progressBarBanner"
@@ -129,19 +127,19 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerViewCategory"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:clipToPadding="false"
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ProgressBar
                     android:id="@+id/progressBarCategory"
@@ -157,7 +155,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="24dp"
@@ -165,7 +163,7 @@
 
                 <TextView
                     android:id="@+id/textView5"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="recommended"
@@ -184,19 +182,21 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerViewRecommended"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:clipToPadding="false"
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
 
                 <ProgressBar
                     android:id="@+id/progressBarRecommended"
@@ -211,7 +211,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="24dp"
@@ -219,7 +219,7 @@
 
                 <TextView
                     android:id="@+id/textView7"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Popular Destination"
@@ -237,19 +237,19 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerViewPopular"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:clipToPadding="false"
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ProgressBar
                     android:id="@+id/progressBarPopular"
@@ -261,154 +261,24 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/recyclerViewPopular" />
             </androidx.constraintlayout.widget.ConstraintLayout>
-
         </LinearLayout>
     </ScrollView>
 
-    <!-- ⭐ BOTTOM NAVIGATION - IDENTIK DENGAN activity_explorer.xml -->
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/bottomNavigation"
+    <!-- CHIP NAVIGATION BAR DENGAN ID -->
+    <com.ismaeldivita.chipnavigation.ChipNavigationBar
+        android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardElevation="12dp"
-        app:cardCornerRadius="0dp"
-        app:cardBackgroundColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="12dp"
-            android:gravity="center">
-
-            <!-- Home Button -->
-            <LinearLayout
-                android:id="@+id/homeBtn"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:padding="8dp">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/home_icon"
-                    app:tint="@color/blue" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Home"
-                    android:textSize="12sp"
-                    android:textColor="@color/blue"
-                    android:textStyle="bold"
-                    android:layout_marginTop="4dp" />
-
-            </LinearLayout>
-
-            <!-- Discover Button -->
-            <LinearLayout
-                android:id="@+id/discoverBtn"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:padding="8dp">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/location"
-                    app:tint="@android:color/darker_gray" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Discover"
-                    android:textSize="12sp"
-                    android:textColor="@android:color/darker_gray"
-                    android:layout_marginTop="4dp" />
-
-            </LinearLayout>
-
-            <!-- Cart Button -->
-            <LinearLayout
-                android:id="@+id/cartBtn"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:padding="8dp">
-
-                <FrameLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_shopping_cart_white"
-                        app:tint="@android:color/darker_gray" />
-
-                    <!-- Badge for cart items -->
-                    <TextView
-                        android:id="@+id/cartBadge"
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:layout_gravity="end|top"
-                        android:background="@drawable/blue_bg"
-                        android:gravity="center"
-                        android:text="0"
-                        android:textColor="@color/white"
-                        android:textSize="10sp"
-                        android:textStyle="bold"
-                        android:visibility="gone" />
-
-                </FrameLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Cart"
-                    android:textSize="12sp"
-                    android:textColor="@android:color/darker_gray"
-                    android:layout_marginTop="4dp" />
-
-            </LinearLayout>
-
-            <!-- Profile Button -->
-            <LinearLayout
-                android:id="@+id/profileBtn"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:padding="8dp">
-
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/profile_icon"
-                    app:tint="@android:color/darker_gray" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Profile"
-                    android:textSize="12sp"
-                    android:textColor="@android:color/darker_gray"
-                    android:layout_marginTop="4dp" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </com.google.android.material.card.MaterialCardView>
-
+        android:layout_height="70dp"
+        app:cnb_menuResource="@menu/menu_bottom"
+        android:background="@color/white"
+        android:elevation="3dp"
+        android:padding="4dp"
+        app:cnb_iconSize="20sp"
+        app:cnb_iconColor="@color/darkBlue"
+        app:cnb_radius="50dp"
+        app:cnb_orientationMode="horizontal"
+        app:cnb_unselectedColor="@color/darkBlue"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

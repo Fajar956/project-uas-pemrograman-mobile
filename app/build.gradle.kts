@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+
     id("com.google.gms.google-services")
 }
 
@@ -47,11 +48,8 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.12.0")
     implementation(libs.firebase.database)
     implementation(libs.recyclerview)
-
-    // OSMDroid untuk Maps
-    implementation("org.osmdroid:osmdroid-android:6.1.18")
-
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
 }
