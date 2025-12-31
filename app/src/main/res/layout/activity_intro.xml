@@ -10,39 +10,56 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
 
             <ImageView
                 android:id="@+id/introBtn"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:minHeight="350dp"
+                android:maxHeight="450dp"
                 android:scaleType="centerCrop"
+                android:adjustViewBounds="true"
                 app:srcCompat="@drawable/intro_pic" />
 
-            <TextView
-                android:id="@+id/textView"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/IntroTitle"
-                android:textStyle="bold"
-                android:textSize="43sp"
-                android:textColor="@color/darkBlue"
-                android:textAlignment="center"/>
+                android:orientation="vertical"
+                android:padding="24dp"
+                android:gravity="center_horizontal">
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Find perfect destinations, exclusive deals, and create memories that last forever."
-                android:textColor="@color/darkBlue"
-                android:textAlignment="center"
-                android:layout_marginTop="8dp"
-                android:textSize="16sp"/>
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/IntroTitle"
+                    android:textStyle="bold"
+                    android:textSize="28sp"
+                    android:textColor="@color/darkBlue"
+                    android:textAlignment="center"
+                    android:lineSpacingExtra="4dp"/>
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Find perfect destinations, exclusive deals, and create memories that last forever."
+                    android:textColor="@color/darkBlue"
+                    android:textAlignment="center"
+                    android:layout_marginTop="12dp"
+                    android:textSize="14sp"
+                    android:lineSpacingExtra="2dp"
+                    android:paddingHorizontal="8dp"/>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
