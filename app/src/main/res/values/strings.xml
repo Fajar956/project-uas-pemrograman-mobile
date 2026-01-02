@@ -3,4 +3,7 @@
     <string name="IntroTitle">Exploler the<font color="#3f95ec">\n World</font> with us</string>
     <string name="SubIntro">Lorem ipsum dolor sit amet, consectetur\n
         adipiscing elit, sed do eiusmod tempor.</string>
+
+    <!-- Tambahkan baris ini -->
+    <string name="filter_content_description">Filter</string>
 </resources>

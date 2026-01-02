@@ -3,16 +3,12 @@ package com.example.travelapp.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.travelapp.Adapter.CategoryAdapter;
 import com.example.travelapp.Adapter.PopularAdapter;
@@ -35,17 +31,21 @@ import java.util.ArrayList;
 import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 public class MainActivity extends BaseActivity {
-    ActivityMainBinding binding;
+
+    private ActivityMainBinding binding;
     private ArrayList<ItemDomain> itemList = new ArrayList<>();
     private ArrayList<ItemDomain> popularList = new ArrayList<>();
     private RecommendedAdapter recommendedAdapter;
     private PopularAdapter popularAdapter;
+    private FirebaseDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        database = FirebaseDatabase.getInstance();
 
         initLocation();
         initBanner();
@@ -55,32 +55,27 @@ public class MainActivity extends BaseActivity {
         setupBottomNavigation();
         setupSearch();
 
-        // Tambah click listener untuk tombol Search
-        TextView searchBtn = findViewById(R.id.textView4);
-        searchBtn.setOnClickListener(v -> {
+        // ✅ Gunakan ViewBinding — tidak perlu findViewById!
+        binding.searchBtn.setOnClickListener(v -> {
             String query = binding.editTextText2.getText().toString().trim();
             performSearch(query);
         });
 
-        // Tambah click listener untuk icon bell (notification)
-        ImageView bellIcon = findViewById(R.id.imageView);
-        bellIcon.setOnClickListener(v -> {
-            startActivity(new Intent(MainActivity.this, NotificationActivity.class));
+        binding.imageView.setOnClickListener(v -> {
+            // Jika NotificationActivity belum ada, ganti dengan Toast dulu
+            Toast.makeText(this, "Notifications coming soon!", Toast.LENGTH_SHORT).show();
+            // startActivity(new Intent(MainActivity.this, NotificationActivity.class));
         });
     }
 
     private void setupSearch() {
-        EditText searchBar = findViewById(R.id.editTextText2);
-
-        // Search ketika tombol enter ditekan
-        searchBar.setOnEditorActionListener((v, actionId, event) -> {
+        binding.editTextText2.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH ||
                     actionId == EditorInfo.IME_ACTION_DONE ||
                     actionId == EditorInfo.IME_ACTION_GO) {
-                String query = searchBar.getText().toString().trim();
+                String query = binding.editTextText2.getText().toString().trim();
                 performSearch(query);
-                // Sembunyikan keyboard
-                searchBar.clearFocus();
+                binding.editTextText2.clearFocus();
                 return true;
             }
             return false;
@@ -89,19 +84,18 @@ public class MainActivity extends BaseActivity {
 
     private void performSearch(String query) {
         if (query.isEmpty()) {
-            // Jika search kosong, tampilkan semua data
-            if (recommendedAdapter != null && !itemList.isEmpty()) {
+            // Reset ke data penuh
+            if (!itemList.isEmpty()) {
                 recommendedAdapter = new RecommendedAdapter(itemList);
                 binding.recyclerViewRecommended.setAdapter(recommendedAdapter);
             }
-            if (popularAdapter != null && !popularList.isEmpty()) {
+            if (!popularList.isEmpty()) {
                 popularAdapter = new PopularAdapter(popularList);
                 binding.recyclerViewPopular.setAdapter(popularAdapter);
             }
             return;
         }
 
-        // Filter Recommended items
         ArrayList<ItemDomain> filteredRecommended = new ArrayList<>();
         for (ItemDomain item : itemList) {
             if (item.getTitle().toLowerCase().contains(query.toLowerCase()) ||
@@ -110,7 +104,6 @@ public class MainActivity extends BaseActivity {
             }
         }
 
-        // Filter Popular items
         ArrayList<ItemDomain> filteredPopular = new ArrayList<>();
         for (ItemDomain item : popularList) {
             if (item.getTitle().toLowerCase().contains(query.toLowerCase()) ||
@@ -119,69 +112,63 @@ public class MainActivity extends BaseActivity {
             }
         }
 
-        // Update Recommended RecyclerView
         recommendedAdapter = new RecommendedAdapter(filteredRecommended);
         binding.recyclerViewRecommended.setAdapter(recommendedAdapter);
 
-        // Update Popular RecyclerView
         popularAdapter = new PopularAdapter(filteredPopular);
         binding.recyclerViewPopular.setAdapter(popularAdapter);
 
-        // Show message if no results
         if (filteredRecommended.isEmpty() && filteredPopular.isEmpty()) {
             Toast.makeText(this, "No results found for: " + query, Toast.LENGTH_SHORT).show();
         }
     }
 
     private void setupBottomNavigation() {
-        // Sekarang pakai ID yang baru ditambahkan
-        ChipNavigationBar bottomNav = findViewById(R.id.bottom_navigation);
+        // Sesuaikan dengan menu_bottom.xml Anda:
+        // - explorer (Home)
+        // - tvPrice (Explorer/Discover)
+        // - cart
+        // - profile
+        binding.bottomNavigation.setItemSelected(R.id.explorer, true);
 
-        if (bottomNav == null) {
-            Toast.makeText(this, "Bottom navigation not found!", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        // Set Home sebagai selected
-        bottomNav.setItemSelected(R.id.exploler, true);
-
-        bottomNav.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
+        binding.bottomNavigation.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
             @Override
             public void onItemSelected(int id) {
-                if (id == R.id.exploler) {
-                    // Already in home (MainActivity)
-                    // Tidak perlu lakukan apa-apa
-                } else if (id == R.id.favorite) {
-                    // Explorer/Favorite - buat activity baru atau toast
-                    Toast.makeText(MainActivity.this, "Explorer coming soon!", Toast.LENGTH_SHORT).show();
+                if (id == R.id.explorer) {
+                    // Sudah di MainActivity — tidak perlu action
+                } else if (id == R.id.tvPrice) {
+                    // Pindah ke ExplorerActivity
+                    startActivity(new Intent(MainActivity.this, ExplorerActivity.class));
                 } else if (id == R.id.cart) {
-                    // Cart Activity
-                    startActivity(new Intent(MainActivity.this, CartActivity.class));
+                    // startActivity(new Intent(MainActivity.this, CartActivity.class));
+                    Toast.makeText(MainActivity.this, "Cart coming soon!", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.profile) {
-                    // Profile Activity
-                    startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+                    // startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+                    Toast.makeText(MainActivity.this, "Profile coming soon!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
     private void initPopular() {
-        DatabaseReference myref = database.getReference("Popular");
+        DatabaseReference myRef = database.getReference("Popular");
         binding.progressBarPopular.setVisibility(View.VISIBLE);
-
         popularList.clear();
 
-        myref.addListenerForSingleValueEvent(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()){
+                if (snapshot.exists()) {
                     for (DataSnapshot issue : snapshot.getChildren()) {
                         ItemDomain item = issue.getValue(ItemDomain.class);
-                        popularList.add(item);
+                        if (item != null) {
+                            popularList.add(item);
+                        }
                     }
-                    if (!popularList.isEmpty()){
-                        binding.recyclerViewPopular.setLayoutManager(new LinearLayoutManager(
-                                MainActivity.this, LinearLayoutManager.HORIZONTAL, false));
+                    if (!popularList.isEmpty()) {
+                        binding.recyclerViewPopular.setLayoutManager(
+                                new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false)
+                        );
                         popularAdapter = new PopularAdapter(popularList);
                         binding.recyclerViewPopular.setAdapter(popularAdapter);
                     }
@@ -192,27 +179,30 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 binding.progressBarPopular.setVisibility(View.GONE);
+                Toast.makeText(MainActivity.this, "Failed to load popular items", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void initRecommended() {
-        DatabaseReference myref = database.getReference("Item");
+        DatabaseReference myRef = database.getReference("Item");
         binding.progressBarRecommended.setVisibility(View.VISIBLE);
-
         itemList.clear();
 
-        myref.addListenerForSingleValueEvent(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()){
+                if (snapshot.exists()) {
                     for (DataSnapshot issue : snapshot.getChildren()) {
                         ItemDomain item = issue.getValue(ItemDomain.class);
-                        itemList.add(item);
+                        if (item != null) {
+                            itemList.add(item);
+                        }
                     }
-                    if (!itemList.isEmpty()){
-                        binding.recyclerViewRecommended.setLayoutManager(new LinearLayoutManager(
-                                MainActivity.this, LinearLayoutManager.HORIZONTAL, false));
+                    if (!itemList.isEmpty()) {
+                        binding.recyclerViewRecommended.setLayoutManager(
+                                new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false)
+                        );
                         recommendedAdapter = new RecommendedAdapter(itemList);
                         binding.recyclerViewRecommended.setAdapter(recommendedAdapter);
                     }
@@ -223,25 +213,30 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 binding.progressBarRecommended.setVisibility(View.GONE);
+                Toast.makeText(MainActivity.this, "Failed to load recommended items", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void initCategory() {
-        DatabaseReference myref = database.getReference("Category");
+        DatabaseReference myRef = database.getReference("Category");
         binding.progressBarCategory.setVisibility(View.VISIBLE);
         ArrayList<Category> list = new ArrayList<>();
 
-        myref.addListenerForSingleValueEvent(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()){
+                if (snapshot.exists()) {
                     for (DataSnapshot issue : snapshot.getChildren()) {
-                        list.add(issue.getValue(Category.class));
+                        Category category = issue.getValue(Category.class);
+                        if (category != null) {
+                            list.add(category);
+                        }
                     }
-                    if (!list.isEmpty()){
-                        binding.recyclerViewCategory.setLayoutManager(new LinearLayoutManager(
-                                MainActivity.this, LinearLayoutManager.HORIZONTAL, false));
+                    if (!list.isEmpty()) {
+                        binding.recyclerViewCategory.setLayoutManager(
+                                new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false)
+                        );
                         CategoryAdapter adapter = new CategoryAdapter(list);
                         binding.recyclerViewCategory.setAdapter(adapter);
                     }
@@ -252,24 +247,28 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 binding.progressBarCategory.setVisibility(View.GONE);
+                Toast.makeText(MainActivity.this, "Failed to load categories", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void initLocation() {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myref = database.getReference("Location");
+        DatabaseReference myRef = database.getReference("Location");
         ArrayList<Location> list = new ArrayList<>();
 
-        myref.addListenerForSingleValueEvent(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()){
-                    for (DataSnapshot issue : snapshot.getChildren()){
-                        list.add(issue.getValue(Location.class));
+                if (snapshot.exists()) {
+                    for (DataSnapshot issue : snapshot.getChildren()) {
+                        Location location = issue.getValue(Location.class);
+                        if (location != null) {
+                            list.add(location);
+                        }
                     }
-                    ArrayAdapter<Location> adapter = new ArrayAdapter<>(MainActivity.this,
-                            R.layout.sp_item, list);
+                    ArrayAdapter<Location> adapter = new ArrayAdapter<>(
+                            MainActivity.this, R.layout.sp_item, list
+                    );
                     adapter.setDropDownViewResource(R.layout.sp_item);
                     binding.spinner2.setAdapter(adapter);
                 }
@@ -277,30 +276,33 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(MainActivity.this, "Failed to load locations", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void banners(ArrayList<SliderItems> items){
+    private void banners(ArrayList<SliderItems> items) {
         binding.viewPagerSlider.setAdapter(new SliderAdapter(items, binding.viewPagerSlider));
         binding.viewPagerSlider.setClipToPadding(false);
         binding.viewPagerSlider.setClipChildren(false);
         binding.viewPagerSlider.setOffscreenPageLimit(3);
-        binding.viewPagerSlider.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
+        binding.viewPagerSlider.getChildAt(0).setOverScrollMode(View.OVER_SCROLL_NEVER);
     }
 
-    private void initBanner(){
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myref = database.getReference("Banner");
+    private void initBanner() {
+        DatabaseReference myRef = database.getReference("Banner");
         binding.progressBarBanner.setVisibility(View.VISIBLE);
         ArrayList<SliderItems> list = new ArrayList<>();
 
-        myref.addListenerForSingleValueEvent(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     for (DataSnapshot issue : snapshot.getChildren()) {
-                        list.add(issue.getValue(SliderItems.class));
+                        SliderItems item = issue.getValue(SliderItems.class);
+                        if (item != null) {
+                            list.add(item);
+                        }
                     }
                     banners(list);
                     binding.progressBarBanner.setVisibility(View.GONE);
@@ -310,6 +312,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 binding.progressBarBanner.setVisibility(View.GONE);
+                Toast.makeText(MainActivity.this, "Failed to load banner", Toast.LENGTH_SHORT).show();
             }
         });
     }
