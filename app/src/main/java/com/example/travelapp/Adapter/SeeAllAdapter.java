@@ -1,8 +1,7 @@
 package com.example.travelapp.Adapter;
 
-import android.content.Intent;
 import android.content.Context;
-import com.example.travelapp.Activity.DetailActivity;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,42 +17,41 @@ import com.example.travelapp.databinding.ViewholderRecommendedBinding;
 
 import java.util.ArrayList;
 
-public class RecommendedAdapter extends RecyclerView.Adapter<RecommendedAdapter.Viewholder> {
+public class SeeAllAdapter extends RecyclerView.Adapter<SeeAllAdapter.ViewHolder> {
+
     private Context context;
     private ArrayList<ItemDomain> items;
 
-    public RecommendedAdapter(Context context, ArrayList<ItemDomain> items) {
+    public SeeAllAdapter(Context context, ArrayList<ItemDomain> items) {
         this.context = context;
         this.items = items;
     }
 
     @NonNull
     @Override
-    public Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ViewholderRecommendedBinding binding = ViewholderRecommendedBinding.inflate(
-                LayoutInflater.from(parent.getContext()), parent, false);
-        return new Viewholder(binding);
+                LayoutInflater.from(parent.getContext()), parent, false
+        );
+        return new ViewHolder(binding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Viewholder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ItemDomain item = items.get(position);
 
-        // ✅ SESUAI ID DI XML
         holder.binding.title.setText(item.getTitle());
-        holder.binding.location.setText(item.getAddress()); // address → lokasi
+        holder.binding.location.setText(item.getAddress());
         holder.binding.rating.setText(String.valueOf(item.getScore()));
         holder.binding.price.setText("$" + item.getPrice() + " /Person");
 
-        // Load gambar
-        if (item.getPic() != null && !item.getPic().isEmpty()) {
-            Glide.with(context)
-                    .load(item.getPic())
-                    .placeholder(R.drawable.intro_pic)
-                    .into(holder.binding.pic);
-        }
+        // Load gambar dari URL
+        Glide.with(context)
+                .load(item.getPic()) // Pastikan field `pic` adalah URL string
+                .placeholder(R.drawable.placeholder_image) // Opsional
+                .into(holder.binding.pic);
 
-        // Optional: klik item → buka DetailActivity
+        // Klik item → ke DetailActivity
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, DetailActivity.class);
             intent.putExtra("object", item); // ItemDomain implements Serializable
@@ -66,10 +64,10 @@ public class RecommendedAdapter extends RecyclerView.Adapter<RecommendedAdapter.
         return items.size();
     }
 
-    public static class Viewholder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
         ViewholderRecommendedBinding binding;
 
-        public Viewholder(ViewholderRecommendedBinding binding) {
+        public ViewHolder(@NonNull ViewholderRecommendedBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }

@@ -1,99 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="215dp"
     android:layout_margin="8dp"
-    android:background="@drawable/white_corner_bg"
-    android:elevation="3dp">
+    app:cardCornerRadius="16dp"
+    app:cardElevation="4dp"
+    app:cardBackgroundColor="@color/white">
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/pic"
-        android:layout_width="240dp"
-        android:layout_height="130dp"
-        android:layout_margin="8dp"
-        android:scaleType="centerCrop"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.circleImageView"
-        tools:srcCompat="@tools:sample/backgrounds/scenic" />
-
-    <TextView
-        android:id="@+id/titleTxt"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="title"
-        android:textColor="@color/darkBlue"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/imageView3"
-        app:layout_constraintStart_toStartOf="@+id/pic"
-        app:layout_constraintTop_toBottomOf="@+id/pic" />
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/scoreTxt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="5"
-        android:textColor="@color/darkBlue"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/titleTxt"
-        app:layout_constraintEnd_toEndOf="@+id/pic"
-        app:layout_constraintTop_toTopOf="@+id/titleTxt" />
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/pic"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:scaleType="centerCrop"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.roundedImageView"
+            tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/scoreTxt"
-        app:layout_constraintEnd_toStartOf="@+id/scoreTxt"
-        app:layout_constraintTop_toTopOf="@+id/scoreTxt"
-        app:srcCompat="@drawable/star" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
 
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        app:layout_constraintStart_toStartOf="@+id/titleTxt"
-        app:layout_constraintTop_toBottomOf="@+id/titleTxt"
-        app:srcCompat="@drawable/location" />
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Band Island Beach"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/darkBlue" />
 
-    <TextView
-        android:id="@+id/addressTxt"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="address"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView4"
-        app:layout_constraintTop_toTopOf="@+id/imageView4" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="4dp">
 
-    <TextView
-        android:id="@+id/priceTxt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="$0"
-        android:textColor="@color/blue"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/imageView4"
-        app:layout_constraintTop_toBottomOf="@+id/addressTxt" />
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/location"
+                    android:layout_gravity="center_vertical"
+                    app:tint="@color/darkBlue" />
 
-    <TextView
-        android:id="@+id/textView13"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="/Persen"
-        android:textColor="@color/darkBlue"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/priceTxt"
-        app:layout_constraintStart_toEndOf="@+id/priceTxt"
-        app:layout_constraintTop_toTopOf="@+id/priceTxt" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/location"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Hawaie, USA"
+                    android:textSize="14sp"
+                    android:textColor="@color/darkBlue"
+                    android:layout_marginStart="4dp"
+                    android:layout_gravity="center_vertical" />
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/star"
+                    android:layout_gravity="center_vertical" />
+
+                <TextView
+                    android:id="@+id/rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="4.5"
+                    android:textSize="14sp"
+                    android:textColor="@color/darkBlue"
+                    android:layout_marginStart="4dp"
+                    android:layout_gravity="center_vertical" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$900 /Person"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/blue"
+                android:layout_marginTop="8dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

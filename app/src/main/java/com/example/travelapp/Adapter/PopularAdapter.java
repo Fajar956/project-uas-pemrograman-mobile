@@ -12,46 +12,52 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.travelapp.Activity.DetailActivity;
 import com.example.travelapp.Domain.ItemDomain;
+import com.example.travelapp.R;
 import com.example.travelapp.databinding.ViewholderPopularBinding;
-import com.example.travelapp.databinding.ViewholderRecommendedBinding;
 
 import java.util.ArrayList;
 
 public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.Viewholder> {
-    ArrayList<ItemDomain> items;
-    Context context;
-    ViewholderPopularBinding binding;
+    private Context context;
+    private ArrayList<ItemDomain> items;
 
-    public PopularAdapter(ArrayList<ItemDomain> items) {
+    // ✅ Konstruktor diperbaiki: terima Context
+    public PopularAdapter(Context context, ArrayList<ItemDomain> items) {
+        this.context = context;
         this.items = items;
     }
 
     @NonNull
     @Override
-    public PopularAdapter.Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        binding=ViewholderPopularBinding.inflate(LayoutInflater.from(parent.getContext()),parent,false);
-        context=parent.getContext();
+    public Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        ViewholderPopularBinding binding = ViewholderPopularBinding.inflate(
+                LayoutInflater.from(parent.getContext()), parent, false);
         return new Viewholder(binding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PopularAdapter.Viewholder holder, int position) {
-    binding.titleTxt.setText(items.get(position).getTitle());
-    binding.priceTxt.setText("$"+items.get(position).getPrice());
-    binding.addressTxt.setText(items.get(position).getAddress());
-    binding.scoreTxt.setText(""+items.get(position).getScore());
+    public void onBindViewHolder(@NonNull Viewholder holder, int position) {
+        ItemDomain item = items.get(position);
 
-        Glide.with(context)
-                .load(items.get(position).getPic())
-                .into(binding.pic);
+        // ✅ ID SESUAI DENGAN viewholder_popular.xml
+        holder.binding.titleTxt.setText(item.getTitle());
+        holder.binding.addressTxt.setText(item.getAddress());
+        holder.binding.priceTxt.setText("$" + item.getPrice());
+        holder.binding.scoreTxt.setText(String.valueOf(item.getScore()));
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(context, DetailActivity.class);
-                intent.putExtra("object",items.get(position));
-                context.startActivity(intent);
-            }
+        // Load gambar
+        if (item.getPic() != null && !item.getPic().isEmpty()) {
+            Glide.with(context)
+                    .load(item.getPic())
+                    .placeholder(R.drawable.intro_pic)
+                    .into(holder.binding.pic);
+        }
+
+        // Klik → buka Detail
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, DetailActivity.class);
+            intent.putExtra("object", item);
+            context.startActivity(intent);
         });
     }
 
@@ -60,9 +66,12 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.Viewhold
         return items.size();
     }
 
-    public class Viewholder extends RecyclerView.ViewHolder {
+    public static class Viewholder extends RecyclerView.ViewHolder {
+        ViewholderPopularBinding binding;
+
         public Viewholder(ViewholderPopularBinding binding) {
             super(binding.getRoot());
+            this.binding = binding;
         }
     }
 }

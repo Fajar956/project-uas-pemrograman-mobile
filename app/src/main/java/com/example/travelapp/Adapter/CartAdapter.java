@@ -1,5 +1,6 @@
 package com.example.travelapp.Adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,17 +9,28 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.travelapp.Domain.ItemDomain;
+import com.example.travelapp.Model.CartItem;
 import com.example.travelapp.R;
 import com.example.travelapp.databinding.ViewholderCartBinding;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
-    private ArrayList<ItemDomain> items;
+    private Context context;
+    private List<CartItem> items;
+    private OnItemClickListener listener;
 
-    public CartAdapter(ArrayList<ItemDomain> items) {
+    public CartAdapter(Context context, List<CartItem> items) {
+        this.context = context;
         this.items = items;
+    }
+
+    public interface OnItemClickListener {
+        void onItemRemoved();
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 
     @NonNull
@@ -31,24 +43,31 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        ItemDomain item = items.get(position);
+        CartItem item = items.get(position);
 
         holder.binding.titleTxt.setText(item.getTitle());
-        holder.binding.priceTxt.setText("$" + item.getPrice());
-        holder.binding.addressTxt.setText(item.getAddress());
+        holder.binding.priceTxt.setText("$" + String.format("%.2f", item.getPrice()));
+        holder.binding.addressTxt.setText(item.getLocation());
 
-        // Load image if available
-        if (item.getPic() != null && !item.getPic().isEmpty()) {
-            Glide.with(holder.itemView.getContext())
-                    .load(item.getPic())
+        // Load image with Glide
+        if (item.getImageUrl() != null && !item.getImageUrl().isEmpty()) {
+            Glide.with(context)
+                    .load(item.getImageUrl())
+                    .placeholder(R.drawable.intro_pic)
+                    .error(R.drawable.intro_pic)
                     .into(holder.binding.pic);
         }
 
-        // Remove button functionality
+        // Remove button
         holder.binding.removeBtn.setOnClickListener(v -> {
             items.remove(position);
             notifyItemRemoved(position);
             notifyItemRangeChanged(position, items.size());
+
+            // Notifikasi CartActivity untuk update total
+            if (listener != null) {
+                listener.onItemRemoved();
+            }
         });
     }
 
@@ -57,7 +76,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         return items.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         ViewholderCartBinding binding;
 
         public ViewHolder(ViewholderCartBinding binding) {

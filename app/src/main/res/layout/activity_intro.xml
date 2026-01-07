@@ -30,19 +30,25 @@
                 android:layout_height="wrap_content"
                 android:text="@string/IntroTitle"
                 android:textStyle="bold"
-                android:textSize="43sp"
+                android:textSize="36sp"
                 android:textColor="@color/darkBlue"
                 android:textAlignment="center"/>
 
+            <!-- ✅ TEKS DESKRIPSI: DIBATASI LEBAR DAN DITAMBAHKAN PADDING -->
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Find perfect destinations, exclusive deals, and create memories that last forever."
-                android:textColor="@color/darkBlue"
-                android:textAlignment="center"
                 android:layout_marginTop="8dp"
-                android:textSize="16sp"/>
+                android:lineSpacingExtra="4dp"
+                android:maxWidth="300dp"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp"
+                android:text="Find perfect destinations, exclusive deals, and create memories that last forever."
+                android:textAlignment="center"
+                android:textColor="@color/darkBlue"
+                android:textSize="18sp" />
+
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

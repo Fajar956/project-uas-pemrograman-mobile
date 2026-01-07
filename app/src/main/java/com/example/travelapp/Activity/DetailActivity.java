@@ -12,10 +12,7 @@ import com.example.travelapp.databinding.ActivityDetailBinding;
 
 public class DetailActivity extends BaseActivity {
     ActivityDetailBinding binding;
-
-    // 1. UBAH: Ganti nama variabel dari 'item' ke 'object'
-    // karena di bawah Anda menggunakan kata 'object' terus menerus.
-    private ItemDomain object;
+    private ItemDomain object; // ✅ Ini nama variabelnya
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +25,6 @@ public class DetailActivity extends BaseActivity {
     }
 
     private void setVariable() {
-        // Pastikan object tidak null sebelum diakses
         if (object != null) {
             binding.titleTxt.setText(object.getTitle());
             binding.priceTxt.setText("$" + object.getPrice());
@@ -43,13 +39,17 @@ public class DetailActivity extends BaseActivity {
             Glide.with(DetailActivity.this)
                     .load(object.getPic())
                     .into(binding.pic);
-        }
 
-        binding.addtocartBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(DetailActivity.this, TicketActivity.class);
-            intent.putExtra("object", object);
-            startActivity(intent);
-        });
+            // ✅ PERBAIKAN: Ganti 'destination' → 'object'
+            binding.addToCartBtn.setOnClickListener(v -> {
+                Intent intent = new Intent(DetailActivity.this, CartActivity.class);
+                intent.putExtra("title", object.getTitle());
+                intent.putExtra("location", object.getAddress());
+                intent.putExtra("price", object.getPrice());
+                intent.putExtra("image", object.getPic()); // ✅ Ubah dari imageResId ke image (URL)
+                startActivity(intent);
+            });
+        }
     }
 
     private void getIntenExtra() {

@@ -55,16 +55,29 @@ public class MainActivity extends BaseActivity {
         setupBottomNavigation();
         setupSearch();
 
-        // ✅ Gunakan ViewBinding — tidak perlu findViewById!
+        // Search Button
         binding.searchBtn.setOnClickListener(v -> {
             String query = binding.editTextText2.getText().toString().trim();
             performSearch(query);
         });
 
+        // Notification Icon - Navigate to NotificationActivity
         binding.imageView.setOnClickListener(v -> {
-            // Jika NotificationActivity belum ada, ganti dengan Toast dulu
-            Toast.makeText(this, "Notifications coming soon!", Toast.LENGTH_SHORT).show();
-            // startActivity(new Intent(MainActivity.this, NotificationActivity.class));
+            Intent intent = new Intent(MainActivity.this, NotificationActivity.class);
+            startActivity(intent);
+        });
+
+        // See All Buttons
+        binding.seeAllRecommended.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, SeeAllActivity.class);
+            intent.putExtra("type", "recommended");
+            startActivity(intent);
+        });
+
+        binding.seeAllPopular.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, SeeAllActivity.class);
+            intent.putExtra("type", "popular");
+            startActivity(intent);
         });
     }
 
@@ -84,13 +97,12 @@ public class MainActivity extends BaseActivity {
 
     private void performSearch(String query) {
         if (query.isEmpty()) {
-            // Reset ke data penuh
             if (!itemList.isEmpty()) {
-                recommendedAdapter = new RecommendedAdapter(itemList);
+                recommendedAdapter = new RecommendedAdapter(this, itemList);
                 binding.recyclerViewRecommended.setAdapter(recommendedAdapter);
             }
             if (!popularList.isEmpty()) {
-                popularAdapter = new PopularAdapter(popularList);
+                popularAdapter = new PopularAdapter(this, popularList);
                 binding.recyclerViewPopular.setAdapter(popularAdapter);
             }
             return;
@@ -112,10 +124,10 @@ public class MainActivity extends BaseActivity {
             }
         }
 
-        recommendedAdapter = new RecommendedAdapter(filteredRecommended);
+        recommendedAdapter = new RecommendedAdapter(this, filteredRecommended);
         binding.recyclerViewRecommended.setAdapter(recommendedAdapter);
 
-        popularAdapter = new PopularAdapter(filteredPopular);
+        popularAdapter = new PopularAdapter(this, filteredPopular);
         binding.recyclerViewPopular.setAdapter(popularAdapter);
 
         if (filteredRecommended.isEmpty() && filteredPopular.isEmpty()) {
@@ -124,27 +136,33 @@ public class MainActivity extends BaseActivity {
     }
 
     private void setupBottomNavigation() {
-        // Sesuaikan dengan menu_bottom.xml Anda:
-        // - explorer (Home)
-        // - tvPrice (Explorer/Discover)
-        // - cart
-        // - profile
+        // Set home/explorer sebagai item yang dipilih
         binding.bottomNavigation.setItemSelected(R.id.explorer, true);
 
         binding.bottomNavigation.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
             @Override
             public void onItemSelected(int id) {
                 if (id == R.id.explorer) {
-                    // Sudah di MainActivity — tidak perlu action
-                } else if (id == R.id.tvPrice) {
-                    // Pindah ke ExplorerActivity
-                    startActivity(new Intent(MainActivity.this, ExplorerActivity.class));
+                    // Already in MainActivity (Home)
+                    // Tidak perlu action
+
+                } else if (id == R.id.vPrice) {
+                    // Navigate to ExplorerActivity
+                    Intent intent = new Intent(MainActivity.this, ExplorerActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
                 } else if (id == R.id.cart) {
-                    // startActivity(new Intent(MainActivity.this, CartActivity.class));
-                    Toast.makeText(MainActivity.this, "Cart coming soon!", Toast.LENGTH_SHORT).show();
+                    // Navigate to CartActivity
+                    Intent intent = new Intent(MainActivity.this, CartActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+
                 } else if (id == R.id.profile) {
-                    // startActivity(new Intent(MainActivity.this, ProfileActivity.class));
-                    Toast.makeText(MainActivity.this, "Profile coming soon!", Toast.LENGTH_SHORT).show();
+                    // Navigate to ProfileActivity
+                    Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 }
             }
         });
@@ -169,7 +187,7 @@ public class MainActivity extends BaseActivity {
                         binding.recyclerViewPopular.setLayoutManager(
                                 new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false)
                         );
-                        popularAdapter = new PopularAdapter(popularList);
+                        popularAdapter = new PopularAdapter(MainActivity.this, popularList);
                         binding.recyclerViewPopular.setAdapter(popularAdapter);
                     }
                     binding.progressBarPopular.setVisibility(View.GONE);
@@ -203,7 +221,7 @@ public class MainActivity extends BaseActivity {
                         binding.recyclerViewRecommended.setLayoutManager(
                                 new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false)
                         );
-                        recommendedAdapter = new RecommendedAdapter(itemList);
+                        recommendedAdapter = new RecommendedAdapter(MainActivity.this, itemList);
                         binding.recyclerViewRecommended.setAdapter(recommendedAdapter);
                     }
                     binding.progressBarRecommended.setVisibility(View.GONE);
@@ -315,5 +333,12 @@ public class MainActivity extends BaseActivity {
                 Toast.makeText(MainActivity.this, "Failed to load banner", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Set bottom navigation ke home saat kembali dari activity lain
+        binding.bottomNavigation.setItemSelected(R.id.explorer, true);
     }
 }

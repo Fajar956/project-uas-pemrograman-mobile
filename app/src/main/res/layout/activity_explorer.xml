@@ -3,223 +3,149 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     tools:context=".Activity.ExplorerActivity">
 
-    <!-- Header Section -->
-    <LinearLayout
-        android:id="@+id/headerLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingHorizontal="24dp"
-        android:paddingTop="48dp"
-        android:paddingBottom="16dp"
-        android:background="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/titleText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Discover Amazing Places"
-            android:textColor="@color/darkBlue"
-            android:textSize="28sp"
-            android:textStyle="bold"
-            android:gravity="start" />
-
-        <TextView
-            android:id="@+id/subtitleText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Find your next adventure"
-            android:textColor="@color/darkBlue"
-            android:textSize="16sp"
-            android:layout_marginTop="4dp" />
-
-        <!-- Search Bar -->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/grey_bg_rounded"
-            android:padding="4dp">
-
-            <EditText
-                android:id="@+id/searchEditText"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:background="@android:color/transparent"
-                android:drawableStart="@drawable/search_icon"
-                android:drawablePadding="12dp"
-                android:hint="Search destinations, hotels, activities..."
-                android:inputType="text"
-                android:paddingStart="12dp"
-                android:paddingEnd="12dp"
-                android:textColor="@color/darkBlue"
-                android:textColorHint="@color/darkBlue"
-                android:textSize="14sp"
-                android:autofillHints="false"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/filterButton"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageButton
-                android:id="@+id/filterButton"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@drawable/blue_bg_rounded"
-                android:scaleType="center"
-                android:src="@drawable/filter_icon"
-                app:tint="@color/white"
-                android:contentDescription="@string/filter_content_description"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </LinearLayout>
-
-    <!-- Main Content with Scroll -->
+    <!-- ScrollView untuk konten yang bisa di-scroll -->
     <androidx.core.widget.NestedScrollView
-        android:id="@+id/nestedScrollView"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:fillViewport="true"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/headerLayout">
+        app:layout_constraintEnd_toEndOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="80dp">
+            android:padding="24dp">
 
-            <!-- Categories Section -->
+            <!-- Header Section -->
             <TextView
-                android:id="@+id/categoriesTitle"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="24dp"
-                android:layout_marginTop="16dp"
-                android:text="Browse by Category"
+                android:text="Where will you go next?"
+                android:textSize="24sp"
+                android:textStyle="bold"
                 android:textColor="@color/darkBlue"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Find your perfect escape with curated destinations and activities."
+                android:textSize="16sp"
+                android:textColor="@color/darkBlue"
+                android:layout_marginBottom="24dp" />
+
+            <!-- Search Bar -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="24dp"
+                app:cardCornerRadius="28dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="8dp">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/search_icon"
+                        android:layout_marginEnd="8dp"
+                        app:tint="@color/darkBlue" />
+
+                    <EditText
+                        android:id="@+id/searchEditText"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="Search destinations, hotels, activities..."
+                        android:textColor="@color/darkBlue"
+                        android:textColorHint="#888888"
+                        android:textSize="16sp"
+                        android:imeOptions="actionSearch"
+                        android:inputType="text" />
+
+                    <ImageView
+                        android:id="@+id/filterIcon"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/filter_icon"
+                        android:padding="4dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        app:tint="@color/darkBlue" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Browse by Category -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Browse by Category"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/darkBlue"
+                android:layout_marginBottom="12dp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/categoriesRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:layout_marginTop="12dp"
-                android:clipToPadding="false"
-                android:paddingHorizontal="16dp" />
-
-            <!-- Trending Now Section -->
-            <LinearLayout
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="24dp"
-                android:layout_marginTop="24dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginBottom="24dp"
+                android:clipToPadding="false"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                tools:listitem="@layout/viewholder_category_card" />
 
-                <TextView
-                    android:id="@+id/trendingTitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Trending Now"
-                    android:textColor="@color/darkBlue"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+            <!-- Trending Now -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Trending Now"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/darkBlue"
+                android:layout_marginBottom="12dp" />
 
-                <TextView
-                    android:id="@+id/seeAllTrending"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="See All"
-                    android:textColor="@color/blue"
-                    android:textSize="14sp"
-                    android:padding="8dp" />
-            </LinearLayout>
+            <TextView
+                android:id="@+id/seeAllTrending"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="See All"
+                android:textColor="@color/blue"
+                android:textSize="14sp"
+                android:layout_gravity="end"
+                android:layout_marginBottom="8dp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/trendingRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="280dp"
-                android:layout_marginTop="12dp"
-                android:clipToPadding="false"
-                android:paddingHorizontal="16dp" />
-
-            <!-- Top Destinations Section -->
-            <LinearLayout
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="24dp"
-                android:layout_marginTop="24dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/topDestinationsTitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Top Destinations"
-                    android:textColor="@color/darkBlue"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/seeAllDestinations"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="See All"
-                    android:textColor="@color/blue"
-                    android:textSize="14sp"
-                    android:padding="8dp" />
-            </LinearLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/topDestinationsRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="240dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginBottom="16dp"
+                android:orientation="vertical"
+                android:layout_marginBottom="32dp"
                 android:clipToPadding="false"
-                android:paddingHorizontal="16dp" />
-
-            <!-- For You Section -->
-            <TextView
-                android:id="@+id/forYouTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="24dp"
-                android:layout_marginTop="24dp"
-                android:text="Recommended For You"
-                android:textColor="@color/darkBlue"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/forYouRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="320dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginBottom="24dp"
-                android:clipToPadding="false"
-                android:paddingHorizontal="16dp" />
+                android:paddingHorizontal="4dp"
+                tools:listitem="@layout/viewholder_trending_card" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <!-- Bottom Navigation -->
+    <!-- Bottom Navigation Bar -->
     <com.ismaeldivita.chipnavigation.ChipNavigationBar
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
@@ -229,7 +155,6 @@
         android:elevation="8dp"
         android:padding="4dp"
         app:cnb_iconSize="20sp"
-        app:cnb_iconColor="@color/darkBlue"
         app:cnb_radius="50dp"
         app:cnb_orientationMode="horizontal"
         app:cnb_unselectedColor="@color/darkBlue"
